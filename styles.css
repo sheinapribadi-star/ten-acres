@@ -88,7 +88,7 @@ h2 { margin: 0 0 14px; font: 700 clamp(36px, 5vw, 54px)/.95 var(--head); text-tr
 .big td.num { position: relative; }
 
 /* heat */
-.heat { display: grid; grid-template-columns: 96px repeat(12, minmax(0, 1fr)); gap: 3px; font: 400 12px/1 var(--mono); }
+.heat { display: grid; grid-template-columns: 108px repeat(12, minmax(0, 1fr)); gap: 3px; font: 400 12px/1 var(--mono); }
 .heat__m { text-align: center; color: var(--muted); padding-bottom: 6px; }
 .heat__h { color: var(--muted); align-self: center; white-space: nowrap; }
 .heat__c { aspect-ratio: 1.35; border: 0; padding: 0; cursor: default; border-radius: 1px; font: inherit; }
