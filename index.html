@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ten Acres &middot; what the record says about a wildfire&rsquo;s first hour</title>
+  <meta name="description" content="CAL FIRE aims to keep 95% of wildfires at 10 acres or less. Ten Acres reads 30,849 California wildfire records (2022 to 2025) to show where the line breaks, what a dispatcher can know in the first hour, and how to sanity check an AI copilot's claim." />
+  <meta name="theme-color" content="#eceee4" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="mast">
+    <div class="mast__topo" aria-hidden="true"></div>
+    <div class="wrap mast__inner">
+      <p class="mast__tag"><span>Field study</span><span>California wildfire record, 2022 to 2025</span></p>
+      <h1 class="mast__title">Ten Acres</h1>
+      <p class="mast__dek">CAL FIRE&rsquo;s stated goal is to keep 95 of every 100 wildfires at 10 acres or less. This page reads the public record to show what happens to the other five, what a dispatcher can actually know in a fire&rsquo;s first hour, and how to tell when an AI copilot is claiming more than the record supports.</p>
+      <dl class="tally" id="tally">
+        <div><dt>sized wildfires on record</dt><dd data-k="n">&nbsp;</dd></div>
+        <div><dt>held at 10 acres or less</dt><dd data-k="held">&nbsp;</dd></div>
+        <div><dt>got past 10 acres</dt><dd data-k="esc">&nbsp;</dd></div>
+        <div><dt>of all acres burned came from those</dt><dd data-k="share">&nbsp;</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <main>
+    <section class="sec" id="ledger" aria-labelledby="ledger-h">
+      <div class="wrap grid">
+        <p class="sec__no">01</p>
+        <div class="sec__body">
+          <h2 id="ledger-h">The ledger</h2>
+          <p class="lede">Share of sized wildfires held at 10 acres or less, by year. The scale starts at 90% so the gap to the goal is visible.</p>
+          <div class="ledger" id="ledger-chart" role="img" aria-label="Share of fires held at 10 acres or less by year"></div>
+          <p class="note" id="ledger-note"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="one-in-twenty" aria-labelledby="conc-h">
+      <div class="wrap grid">
+        <p class="sec__no">02</p>
+        <div class="sec__body">
+          <h2 id="conc-h">One in twenty does nearly all the burning</h2>
+          <div class="split" id="split"></div>
+          <p class="note" id="conc-note"></p>
+          <table class="big" id="big-table">
+            <caption>The ten largest in the record</caption>
+            <thead><tr><th scope="col">Fire</th><th scope="col">County</th><th scope="col">Reported</th><th scope="col" class="num">Acres</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="when" aria-labelledby="when-h">
+      <div class="wrap grid">
+        <p class="sec__no">03</p>
+        <div class="sec__body">
+          <h2 id="when-h">When the line breaks</h2>
+          <p class="lede">Escape rate by month and by the time the fire was reported (Pacific time). Darker means a larger share got past 10 acres. Hatched cells have fewer than 30 fires.</p>
+          <div class="heat" id="heat"></div>
+          <p class="heat__read" id="heat-read" aria-live="polite">Hover or tab to a cell to read it.</p>
+          <p class="note" id="heat-note"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--desk" id="desk" aria-labelledby="desk-h">
+      <div class="wrap grid">
+        <p class="sec__no">04</p>
+        <div class="sec__body">
+          <h2 id="desk-h">The precedent desk</h2>
+          <p class="lede">Describe a new fire the way it arrives on the radio. Each fact you add narrows the pool of past fires that looked the same. The desk stops when fewer than 30 precedents remain, because past that point the record is guessing.</p>
+          <form class="card" id="card" autocomplete="off">
+            <p class="card__head"><span>Incoming</span><span id="card-id">CA-&middot;&middot;&middot;</span></p>
+            <label><span>County</span><select id="f-county"></select></label>
+            <label><span>Month</span><select id="f-m"></select></label>
+            <label><span>Reported</span><select id="f-h"></select></label>
+            <label><span>First size</span><select id="f-z"></select></label>
+            <label><span>Land</span><select id="f-l"></select></label>
+          </form>
+          <div class="ladder" id="ladder" aria-live="polite"></div>
+          <p class="caveat" id="contract-note" hidden></p>
+          <h3 class="h3">Precedents that got away</h3>
+          <p class="small" id="prec-sum"></p>
+          <ol class="prec" id="prec"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="check" aria-labelledby="check-h">
+      <div class="wrap grid">
+        <p class="sec__no">05</p>
+        <div class="sec__body">
+          <h2 id="check-h">Check the copilot</h2>
+          <p class="lede">ContainOS, the TreeHacks project behind this page, refuses to let its language models contradict a physics baseline. The record can be a second baseline. Suppose a copilot looks at the fire you described above and says:</p>
+          <div class="claim">
+            <label for="claim" class="claim__q">&ldquo;Chance this passes 10 acres:</label>
+            <input type="range" id="claim" min="0" max="100" step="1" value="40" />
+            <output id="claim-out" for="claim">40%</output><span class="claim__q">&rdquo;</span>
+          </div>
+          <div class="verdict" id="verdict" aria-live="polite"></div>
+          <p class="note">The thresholds are a design choice, not a validated rule. Inside the 95% interval of the deepest precedent pool reads as consistent. Up to three times beyond it asks for a stated reason. Further than that is treated as an extraordinary claim. A copilot that sees live wind and fuel moisture can be right to depart from the record. It should just have to say why.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="blind" aria-labelledby="blind-h">
+      <div class="wrap grid">
+        <p class="sec__no">06</p>
+        <div class="sec__body">
+          <h2 id="blind-h">What the record cannot see</h2>
+          <p id="holdout"></p>
+          <p>That ceiling is the useful finding. Place, season, hour and first size explain only part of which fires escape. Wind, fuel moisture, slope and how fast the first engine arrives explain the rest, and none of them are in this record. Live data is where a copilot earns its keep, and the base rate is the floor it should have to argue up from.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__grid">
+      <div>
+        <h2 class="foot__h">Method</h2>
+        <p>Records come from the <a href="https://data-nifc.opendata.arcgis.com/datasets/nifc::wfigs-incident-locations">NIFC WFIGS Incident Locations</a> service, pulled November 18, 2026: every California incident typed as a wildfire, discovered 2022 to 2025. Of those, the ones with a recorded size (final acres, else incident size) form the cohort. Escaped means final size above 10 acres. Intervals are 95% Wilson intervals. Holdout: precedent rates built from 2022 to 2024, scored on 2025.</p>
+      </div>
+      <div>
+        <h2 class="foot__h">Limits</h2>
+        <p>This is the interagency record for all agencies, not CAL FIRE&rsquo;s own count, so it will not match their tally. Many local-government responses never get a size and drop out. Six contract counties run their own fire departments and are thinly covered. &ldquo;Size at first report&rdquo; is often a placeholder. Associations, not causes. Not for operational use.</p>
+      </div>
+      <div>
+        <h2 class="foot__h">Credit</h2>
+        <p>Inspired by <a href="https://devpost.com/software/containos">ContainOS</a> (Maanit Goel, Kyle Tianshi, Grace Yan, Nathan Zhou), a winner in the OpenAI Artificial Intelligence Track at <a href="https://treehacks-2026.devpost.com/">TreeHacks 2026</a>. Goal wording from <a href="https://www.fire.ca.gov/what-we-do">CAL FIRE</a>. Built by <a href="https://sheinapribadi-star.github.io/">Sheina Pribadi</a>. <a href="https://github.com/sheinapribadi-star/ten-acres">Code and brief</a>.</p>
+      </div>
+    </div>
+  </footer>
+  <script src="app.js" defer></script>
+</body>
+</html>
